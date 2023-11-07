@@ -1,0 +1,49 @@
+{
+  "name": "nexttest",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.3.2",
+    "@prisma/client": "^5.5.0",
+    "@tanstack/react-query": "^5.0.5",
+    "@uploadthing/react": "^5.7.0",
+    "bcrypt": "^5.1.1",
+    "clsx": "^2.0.0",
+    "cuuid": "^0.3.0",
+    "lucide-react": "^0.288.0",
+    "nanoid": "^5.0.2",
+    "next": "13.5.6",
+    "next-auth": "^4.24.3",
+    "nodemailer": "^6.9.7",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-hook-form": "^7.47.0",
+    "react-hot-toast": "^2.4.1",
+    "react-loading-skeleton": "^3.3.1",
+    "react-query": "^3.39.3",
+    "tailwind-merge": "^1.14.0",
+    "uploadthing": "^5.7.2",
+    "uuid": "^9.0.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.1",
+    "@types/node": "^20",
+    "@types/nodemailer": "^6.4.13",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/uuid": "^9.0.6",
+    "autoprefixer": "^10",
+    "eslint": "^8",
+    "eslint-config-next": "13.5.6",
+    "postcss": "^8",
+    "tailwindcss": "^3",
+    "typescript": "^5"
+  }
+}
