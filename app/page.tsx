@@ -12,9 +12,7 @@ export default async function Home({
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  console.log('searchParams', searchParams?.page);
-
-  // const url = new URL(req.url)
+  const term = searchParams?.term?.toString();
   const pageRaw = searchParams?.page?.toString();
   const currentPage = pageRaw == null || pageRaw == '0' ? 1 : parseInt(pageRaw);
   const skip = (currentPage - 1) * PER_PAGE!;
@@ -29,11 +27,12 @@ export default async function Home({
     count = totalVideoCount._count.title;
   }
 
-  const videos = await prisma.video.findMany({
+  let dbSearchParams = {
     where: {
       published: {
         equals: true,
       },
+      title: {},
     },
     include: {
       category: true,
@@ -41,13 +40,23 @@ export default async function Home({
     },
     skip,
     take: PER_PAGE,
-  });
+  };
+  if (term) {
+    dbSearchParams = {
+      ...dbSearchParams,
+      where: {
+        ...dbSearchParams.where,
+        title: { startsWith: `%${term}%` },
+      },
+    };
+  }
+
+  const videos = await prisma.video.findMany(dbSearchParams);
   return (
     <Container>
       {videos ? (
         <>
           <Videos count={count} videos={videos} />
-
           <Pagination
             url={route('home')}
             total={count}

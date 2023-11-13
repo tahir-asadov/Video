@@ -10,9 +10,12 @@ export default function Watch({
   return (
     <div className="flex flex-col gap-6 max-w-2xl m-auto">
       <h1 className="font-bold text-2xl ">{video.title}</h1>
-      <h4 className="text-lg ">
-        Uploaded by {video.user.firstName} {video.user.lastName}
-      </h4>
+      <h6 className="text-right text-sm">
+        <span className=" text-slate-600">Uploaded by</span>{' '}
+        <b>
+          {video.user.firstName} {video.user.lastName}
+        </b>
+      </h6>
       <VideoPlayer video={video.video} />
       <div>{video.description}</div>
     </div>

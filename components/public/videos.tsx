@@ -1,12 +1,14 @@
-import { Video as VideoType } from '@prisma/client';
+import { Category, User, Video as VideoType } from '@prisma/client';
 import React from 'react';
 import Video from './video';
+
+type VideosProp = VideoType & { user: User; category: Category };
 
 export default function Videos({
   videos,
   count,
 }: {
-  videos: VideoType[];
+  videos: VideosProp[];
   count: number;
 }) {
   return (
