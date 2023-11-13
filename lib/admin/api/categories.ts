@@ -5,7 +5,7 @@ export const apiGetCategories = async (currentPage: number) => {
   return await fetch(route('api.admin.categories', { currentPage: currentPage.toString() })).then(res => res.json()).then(data => data.categories);
 }
 
-export const apiAddCategory = async ({ name, slug, description }: Category) => {
+export const apiAddCategory = async ({ name, slug, description }: Omit<Category, "id">) => {
   console.log(route('api.admin.category'));
   const res = await fetch(route('api.admin.category'), {
     method: 'POST',

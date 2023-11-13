@@ -6,6 +6,7 @@ export const siteURL = NEXT_PUBLIC_SITE_URL || '';
 const routes: { [key: string]: string } = {
   // Public
   'home': siteURL + "/",
+  'watch': `${siteURL}/watch/:videoId`,
   'signin': `${siteURL}/api/auth/signin`,
   'signout': `${siteURL}/api/auth/signout`,
   'signup': `${siteURL}/signup`,
@@ -13,7 +14,7 @@ const routes: { [key: string]: string } = {
   'api.verifyEmail': `${siteURL}/api/verifyEmail?token=:token`,
 
   // Admin
-  'admin': `${siteURL}/admin`,
+  'admin': `${siteURL}/adminaaa`,
   'admin.videos.new': `${siteURL}/admin/videos/new`,
   'admin.videos.edit': `${siteURL}/admin/videos/:videoId/edit`,
   'admin.videos': `${siteURL}/admin/videos`,
@@ -30,16 +31,17 @@ const routes: { [key: string]: string } = {
   'api.admin.category': `${siteURL}/api/admin/category`,
   'api.admin.users': `${siteURL}/api/admin/users?page=:currentPage`,
   'api.admin.user': `${siteURL}/api/admin/user`,
+  'api.member.account': `${siteURL}/api/member/account`,
   'api.member': `${siteURL}/api/member`,
-  'api.member.videos': `${siteURL}/api/member/videos`,
-  'api.member.video': `${siteURL}/api/member/video/:videoId`,
+  'api.member.videos': `${siteURL}/api/member/videos?page=:currentPage`,
+  'api.member.video': `${siteURL}/api/member/video`,
   'api.public': `${siteURL}/api/public`,
   'api.public.categories': `${siteURL}/api/public/categories`,
   // Member
   'member': `${siteURL}/member`,
   'member.videos': `${siteURL}/member/videos`,
-  'member.video.new': `${siteURL}/member/video/new`,
-  'member.video.edit': `${siteURL}/member/video/:videoId/edit`,
+  'member.videos.new': `${siteURL}/member/videos/new`,
+  'member.videos.edit': `${siteURL}/member/videos/:videoId/edit`,
   'member.settings': `${siteURL}/member/settings`,
   'member.account': `${siteURL}/member/account`,
   'member.channel': `${siteURL}/member/channel`,

@@ -4,6 +4,7 @@ import './globals.css';
 import AuthProviders from '@/providers/auth-provider';
 import QueryProvider from '@/providers/query-provider';
 
+import { NotificationProvider } from '@/providers/notification-provider';
 const roboto_condensed = Roboto_Condensed({
   weight: ['300', '400', '700'],
   subsets: ['latin'],
@@ -24,7 +25,9 @@ export default function RootLayout({
     <html lang="en">
       <AuthProviders>
         <QueryProvider>
-          <body className={roboto_condensed.className}>{children}</body>
+          <body className={roboto_condensed.className}>
+            <NotificationProvider>{children}</NotificationProvider>
+          </body>
         </QueryProvider>
       </AuthProviders>
     </html>

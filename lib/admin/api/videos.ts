@@ -5,7 +5,7 @@ export const apiGetVideos = async (currentPage: number) => {
   return await fetch(route('api.admin.videos', { 'currentPage': currentPage.toString() })).then(res => res.json()).then(data => data.videos);
 }
 
-export const apiAddVideo = async ({ title, description, categoryId, userId, video, poster }: Video) => {
+export const apiAddVideo = async ({ title, description, categoryId, userId, video, poster }: Omit<Video, "uploadDate" | "id">) => {
   console.log(route('api.admin.video'));
   const res = await fetch(route('api.admin.video'), {
     method: 'POST',

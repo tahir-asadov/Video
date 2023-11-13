@@ -31,6 +31,7 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials, req) {
+
         if (credentials && credentials.email) {
           const user = await prisma.user.findUnique({
             where: {
@@ -89,6 +90,9 @@ export const authOptions: NextAuthOptions = {
       }
 
       return token;
+    },
+    async redirect({ url, baseUrl }) {
+      return baseUrl
     },
     async signIn({ user, account, profile, email, credentials }) {
       if (!credentials && user && user.name && user.email) {

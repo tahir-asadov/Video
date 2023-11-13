@@ -61,6 +61,7 @@ export default function EditVideo({
       categoryId: data.categoryId,
       userId: data.userId,
       video: data.video,
+      uploadDate: new Date(),
       poster: data.poster,
     });
   });
