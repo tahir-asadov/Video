@@ -30,6 +30,11 @@ export default async function Home({
   }
 
   const videos = await prisma.video.findMany({
+    where: {
+      published: {
+        equals: true,
+      },
+    },
     include: {
       category: true,
       user: true,

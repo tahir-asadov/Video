@@ -46,6 +46,7 @@ export default function MemberVideos({ count }: { count: number }) {
               <tr>
                 <th>Title</th>
                 <th>Category</th>
+                <th>Published</th>
                 <th className="text-center">Edit</th>
                 <th className="text-center">Delete</th>
               </tr>
@@ -56,10 +57,11 @@ export default function MemberVideos({ count }: { count: number }) {
                   <tr key={video.id}>
                     <td>{video.title}</td>
                     <td>{video.category.name}</td>
+                    <td>{video.published ? 'Yes' : 'No'}</td>
                     <td className="text-center">
                       <Link
                         className="inline"
-                        href={route('member.video.edit', {
+                        href={route('member.videos.edit', {
                           videoId: video.id,
                         })}
                       >

@@ -22,7 +22,7 @@ export default function Pagination({
   const prevoiusUrl = `${url}?page=${prevoius}`;
   const lastPageUrl = `${url}?page=${current + 1}`;
   return (
-    <div className="flex flex-wrap gap-2 justify-center">
+    <div className="flex flex-wrap gap-2 justify-center pt-5">
       {prevoius > 0 && (
         <Link
           className="border py-2 px-3 rounded-md"

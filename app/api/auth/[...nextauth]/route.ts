@@ -10,7 +10,7 @@ import bcrypt from 'bcrypt';
 export const authOptions: NextAuthOptions = {
   // adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
-  debug: true,
+  // debug: true,
   // Configure one or more authentication providers
   providers: [
     GithubProvider({

@@ -22,6 +22,16 @@ export default function EditVideo({
   categories: Category[];
   users: User[];
 }) {
+  const statuses = [
+    {
+      label: 'Yes',
+      value: true,
+    },
+    {
+      label: 'No',
+      value: false,
+    },
+  ];
   const router = useRouter();
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -48,6 +58,7 @@ export default function EditVideo({
       userId: video.userId,
       video: video.video,
       poster: video.poster,
+      published: video.published,
     },
   });
 
@@ -63,6 +74,7 @@ export default function EditVideo({
       video: data.video,
       uploadDate: new Date(),
       poster: data.poster,
+      published: data.published,
     });
   });
 
@@ -86,6 +98,31 @@ export default function EditVideo({
           <textarea placeholder="Description" {...register('description')} />
           {errors?.description?.message && (
             <Error message={errors?.description?.message.toString()} />
+          )}
+        </div>
+        <div className="flex gap-1 flex-col">
+          <label htmlFor="description" className="font-bold">
+            Is published
+          </label>
+          <select
+            {...register('published', {
+              setValueAs: (value) => {
+                return value == 'true';
+              },
+            })}
+          >
+            <option value="">Is published</option>
+            {statuses.map((status) => (
+              <option
+                value={status.value ? 'true' : 'false'}
+                key={status.label}
+              >
+                {status.label}
+              </option>
+            ))}
+          </select>
+          {errors?.published?.message && (
+            <Error message={errors?.published?.message.toString()} />
           )}
         </div>
 

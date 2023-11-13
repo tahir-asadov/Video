@@ -1,5 +1,6 @@
+export const SITE_NAME = process.env.SITE_NAME ? process.env.SITE_NAME : '';
 export const NEXT_PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
-export const PER_PAGE = 2
+export const PER_PAGE = 10
 
 export const SMTP_MAILER = process.env.SMTP_MAILER ? process.env.SMTP_MAILER : '';
 export const SMTP_HOST = process.env.SMTP_HOST ? process.env.SMTP_HOST : '';

@@ -16,12 +16,12 @@ export const apiAddVideo = async ({ title, description, categoryId, userId, vide
   return await res.json();
 }
 
-export const apiUpdateVideo = async ({ id, title, description, categoryId, userId, video, poster }: Video) => {
+export const apiUpdateVideo = async ({ id, title, description, categoryId, userId, video, poster, published }: Video) => {
   console.log(route('api.admin.video'));
   const res = await fetch(route('api.admin.video'), {
     method: 'PATCH',
     body: JSON.stringify({
-      id, title, description, categoryId, userId, video, poster
+      id, title, description, categoryId, userId, video, poster, published
     })
   });
   return await res.json();

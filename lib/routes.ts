@@ -14,7 +14,7 @@ const routes: { [key: string]: string } = {
   'api.verifyEmail': `${siteURL}/api/verifyEmail?token=:token`,
 
   // Admin
-  'admin': `${siteURL}/adminaaa`,
+  'admin': `${siteURL}/admin`,
   'admin.videos.new': `${siteURL}/admin/videos/new`,
   'admin.videos.edit': `${siteURL}/admin/videos/:videoId/edit`,
   'admin.videos': `${siteURL}/admin/videos`,

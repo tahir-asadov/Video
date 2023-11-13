@@ -21,26 +21,3 @@ export const getVideo = async (videoId: string, userId: string) => {
     }
   })
 }
-
-export const apiUpdateVideo = async ({ id, title, description, categoryId, poster }: Omit<Video, "userId" | "video">) => {
-  console.log(route('api.member.video'));
-  const res = await fetch(route('api.member.video'), {
-    method: 'PATCH',
-    body: JSON.stringify({
-      id, title, description, categoryId, poster
-    })
-  });
-  return await res.json();
-}
-
-export const apiDeleteVideo = async (id: string) => {
-  console.log(route('api.member.video'));
-  const res = await fetch(route('api.member.video'), {
-    method: 'DELETE',
-    body: JSON.stringify({
-      id
-    })
-  });
-  return await res.json();
-}
-

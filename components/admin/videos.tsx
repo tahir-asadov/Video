@@ -41,6 +41,7 @@ export default function Videos({ count }: { count: number }) {
               <tr>
                 <th>Title</th>
                 <th>Category</th>
+                <th>Published</th>
                 <th>User</th>
                 <th className="text-center">Edit</th>
                 <th className="text-center">Delete</th>
@@ -52,6 +53,7 @@ export default function Videos({ count }: { count: number }) {
                   <tr key={video.id}>
                     <td>{video.title}</td>
                     <td>{video.category.name}</td>
+                    <td>{video.published ? 'Yes' : 'No'}</td>
                     <td>
                       {video.user.firstName} {video.user.lastName}
                     </td>

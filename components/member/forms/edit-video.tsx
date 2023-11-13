@@ -10,9 +10,9 @@ import { Controller, FieldValues, useForm } from 'react-hook-form';
 import Button from '../button';
 import Error from '../error';
 import ImageUploader from '@/components/admin/image-uploader';
-import { apiUpdateVideo } from '@/lib/member/prisma';
 import { memberEditVideoSchema } from '@/zod-schemas/member-video';
 import route from '@/lib/routes';
+import { apiUpdateVideo } from '@/lib/member/api/videos';
 
 export default function EditVideo({
   video,

@@ -97,6 +97,7 @@ model Video {
   categoryId  String
   user        User     @relation(fields: [userId], references: [id])
   category    Category @relation(fields: [categoryId], references: [id])
+  published   Boolean  @default(false)
   // views       VideoView[]
   // comments    Comment[]
   // likes       Like[]
