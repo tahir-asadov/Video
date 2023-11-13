@@ -20,11 +20,11 @@ export async function POST(req: Request) {
       return NextResponse.json(category);
     } else {
       let validationErrors = result.error ? result.error.formErrors.fieldErrors : [];
-      return NextResponse.json({ message: 'Bad Request', status: 400, 'errors': validationErrors });
+      return NextResponse.json({ message: 'Bad Request', 'errors': validationErrors }, { status: 400 });
     }
   } catch (error) {
     console.log(route('api.admin.category'), error);
-    return NextResponse.json({ message: "Internal Server Error", status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
 
@@ -48,11 +48,11 @@ export async function PATCH(req: Request) {
       return NextResponse.json(category);
     } else {
       let validationErrors = result.error ? result.error.formErrors.fieldErrors : [];
-      return NextResponse.json({ message: 'Bad Request', status: 400, 'errors': validationErrors });
+      return NextResponse.json({ message: 'Bad Request', 'errors': validationErrors }, { status: 400 });
     }
   } catch (error) {
     console.log(route('api.admin.category'), error);
-    return NextResponse.json({ message: "Internal Server Error", status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
 
@@ -69,10 +69,10 @@ export async function DELETE(req: Request) {
       })
       return NextResponse.json({ message: "Category deleted" });
     } else {
-      return NextResponse.json({ message: 'Bad Request', status: 400, 'errors': [{ categoryId: { message: "Category id is required" } }] });
+      return NextResponse.json({ message: 'Bad Request', 'errors': [{ categoryId: { message: "Category id is required" } }] }, { status: 400 });
     }
   } catch (error) {
     console.log(route('api.admin.category'), error);
-    return NextResponse.json({ message: "Internal Server Error", status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }

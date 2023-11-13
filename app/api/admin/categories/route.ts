@@ -22,6 +22,6 @@ export async function GET(req: Request) {
     return NextResponse.json({ categories });
   } catch (error) {
     console.log(route('api.admin.categories'), error);
-    return NextResponse.json({ message: "Internal Server Error", status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }

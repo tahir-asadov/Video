@@ -28,7 +28,6 @@ export const NotificationProvider = ({
   children: React.ReactNode;
 }) => {
   const flashmessage = ({ message, status }: TNotificationStatus) => {
-    console.log(message, status);
     if (status == 'success') {
       toast.success(message);
     }

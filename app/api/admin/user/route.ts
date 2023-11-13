@@ -91,10 +91,10 @@ export async function DELETE(req: Request) {
       })
       return NextResponse.json({ message: "User deleted" });
     } else {
-      return NextResponse.json({ message: 'Bad Request', status: 400, 'errors': [{ userId: { message: "User id is required" } }] });
+      return NextResponse.json({ message: 'Bad Request', 'errors': [{ userId: { message: "User id is required" } }] }, { status: 400 });
     }
   } catch (error) {
     console.log(route('api.admin.user'), error);
-    return NextResponse.json({ message: "Internal Server Error", status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }

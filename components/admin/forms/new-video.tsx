@@ -46,9 +46,20 @@ export default function NewVideo({
       userId: data.userId,
       video: data.video,
       poster: data.poster,
+      published: data.published,
     });
   });
 
+  const statuses = [
+    {
+      label: 'Yes',
+      value: true,
+    },
+    {
+      label: 'No',
+      value: false,
+    },
+  ];
   return (
     <div>
       <form className="flex gap-2 flex-col max-w-xl m-auto" onSubmit={onSubmit}>
@@ -72,6 +83,31 @@ export default function NewVideo({
           )}
         </div>
 
+        <div className="flex gap-1 flex-col">
+          <label htmlFor="description" className="font-bold">
+            Is published
+          </label>
+          <select
+            {...register('published', {
+              setValueAs: (value) => {
+                return value == 'true';
+              },
+            })}
+          >
+            <option value="">Is published</option>
+            {statuses.map((status) => (
+              <option
+                value={status.value ? 'true' : 'false'}
+                key={status.label}
+              >
+                {status.label}
+              </option>
+            ))}
+          </select>
+          {errors?.published?.message && (
+            <Error message={errors?.published?.message.toString()} />
+          )}
+        </div>
         <div className="flex gap-2">
           <div className="flex gap-1 flex-col w-1/2">
             <label htmlFor="description" className="font-bold">

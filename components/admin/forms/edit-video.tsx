@@ -13,6 +13,8 @@ import '@uploadthing/react/styles.css';
 import { Category, User, Video } from '@prisma/client';
 import ImageUploader from '../image-uploader';
 import VideoUploader from '../video-uploader';
+import { useContext } from 'react';
+import { NotificationContext } from '@/providers/notification-provider';
 export default function EditVideo({
   video,
   categories,
@@ -22,6 +24,7 @@ export default function EditVideo({
   categories: Category[];
   users: User[];
 }) {
+  const { flash } = useContext(NotificationContext);
   const statuses = [
     {
       label: 'Yes',
@@ -36,10 +39,14 @@ export default function EditVideo({
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: apiUpdateVideo,
-    onSuccess: () => {
-      // Invalidate and refetch
+    onSuccess: (data) => {
+      console.log('data', data);
+
       queryClient.invalidateQueries({ queryKey: ['videos'] });
-      // router.push(route('admin.videos'));
+      flash({ message: data['message'], status: 'success' });
+    },
+    onError: (error) => {
+      flash({ message: error.message, status: 'error' });
     },
   });
 
@@ -61,6 +68,7 @@ export default function EditVideo({
       published: video.published,
     },
   });
+  console.log('mutatuin', mutation);
 
   const onSubmit = handleSubmit((data: FieldValues) => {
     console.log('data', data);
@@ -72,7 +80,6 @@ export default function EditVideo({
       categoryId: data.categoryId,
       userId: data.userId,
       video: data.video,
-      uploadDate: new Date(),
       poster: data.poster,
       published: data.published,
     });

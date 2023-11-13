@@ -14,13 +14,11 @@ export default async function EditVideoPage({
   const video = await getVideo(videoId);
   return (
     <Container>
-      {/* <QueryProvider> */}
       {video ? (
         <EditVideo categories={categories} users={users} video={video} />
       ) : (
-        <p>video not found</p>
+        <p>Video not found</p>
       )}
-      {/* </QueryProvider> */}
     </Container>
   );
 }
