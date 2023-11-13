@@ -5,6 +5,7 @@ import AuthProviders from '@/providers/auth-provider';
 import QueryProvider from '@/providers/query-provider';
 
 import { NotificationProvider } from '@/providers/notification-provider';
+import ProgressBarProvider from '@/providers/ProgressBarProvider';
 const roboto_condensed = Roboto_Condensed({
   weight: ['300', '400', '700'],
   subsets: ['latin'],
@@ -26,7 +27,9 @@ export default function RootLayout({
       <AuthProviders>
         <QueryProvider>
           <body className={roboto_condensed.className}>
-            <NotificationProvider>{children}</NotificationProvider>
+            <ProgressBarProvider>
+              <NotificationProvider>{children}</NotificationProvider>
+            </ProgressBarProvider>
           </body>
         </QueryProvider>
       </AuthProviders>
