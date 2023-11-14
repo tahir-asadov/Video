@@ -11,8 +11,11 @@ import { apiAddUser } from '@/lib/admin/api/users';
 import { userSchema } from '@/zod-schemas/user';
 import { Role } from '@prisma/client';
 import { z } from 'zod';
+import { useContext } from 'react';
+import { NotificationContext } from '@/providers/notification-provider';
 
 export default function NewUser() {
+  const { flash } = useContext(NotificationContext);
   // type User = z.infer<typeof userSchema>;
 
   type userSchemaType = z.infer<typeof userSchema>;
@@ -20,10 +23,14 @@ export default function NewUser() {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: apiAddUser,
-    onSuccess: () => {
+    onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['users'] });
-      // router.push(route('admin.users'));
+      router.push(route('admin.users'));
+      flash({ message: data['message'], status: 'success' });
+    },
+    onError: (error) => {
+      flash({ message: error.message, status: 'error' });
     },
   });
 
@@ -33,10 +40,8 @@ export default function NewUser() {
     control,
     formState: { errors },
   } = useForm<userSchemaType>({ resolver: zodResolver(userSchema) });
-  console.log('errors', errors);
 
   const onSubmit = handleSubmit((data: userSchemaType) => {
-    console.log('data', data);
 
     mutation.mutate({
       firstName: data.firstName,

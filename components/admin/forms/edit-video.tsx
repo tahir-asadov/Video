@@ -40,8 +40,6 @@ export default function EditVideo({
   const mutation = useMutation({
     mutationFn: apiUpdateVideo,
     onSuccess: (data) => {
-      console.log('data', data);
-
       queryClient.invalidateQueries({ queryKey: ['videos'] });
       flash({ message: data['message'], status: 'success' });
     },
@@ -71,8 +69,6 @@ export default function EditVideo({
   console.log('mutatuin', mutation);
 
   const onSubmit = handleSubmit((data: FieldValues) => {
-    console.log('data', data);
-
     mutation.mutate({
       id: video.id,
       title: data.title,

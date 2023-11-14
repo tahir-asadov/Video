@@ -13,6 +13,8 @@ import '@uploadthing/react/styles.css';
 import ImageUploader from '../image-uploader';
 import VideoUploader from '../video-uploader';
 import { Category, User } from '@prisma/client';
+import { useContext } from 'react';
+import { NotificationContext } from '@/providers/notification-provider';
 export default function NewVideo({
   categories,
   users,
@@ -20,14 +22,19 @@ export default function NewVideo({
   categories: Category[];
   users: User[];
 }) {
+  const { flash } = useContext(NotificationContext);
   const router = useRouter();
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: apiAddVideo,
-    onSuccess: () => {
-      // Invalidate and refetch
+
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['videos'] });
       router.push(route('admin.videos'));
+      flash({ message: data['message'], status: 'success' });
+    },
+    onError: (error) => {
+      flash({ message: error.message, status: 'error' });
     },
   });
 

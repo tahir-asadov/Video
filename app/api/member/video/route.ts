@@ -10,10 +10,9 @@ export async function POST(req: Request) {
   try {
 
     const currentSession = await getServerSession(authOptions);
-    console.log('currentSession', currentSession);
 
     if (!currentSession?.user.id) {
-      return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 })
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
     }
 
     const params = await req.json();
@@ -31,7 +30,7 @@ export async function POST(req: Request) {
           categoryId: result.data.categoryId,
         }
       })
-      return NextResponse.json({});
+      return NextResponse.json({ message: "Video added" });
     } else {
       let validationErrors = result.error ? result.error.formErrors.fieldErrors : [];
       return NextResponse.json({ message: 'Bad Request', 'errors': validationErrors }, { status: 400 });
@@ -46,10 +45,9 @@ export async function PATCH(req: Request) {
   try {
 
     const currentSession = await getServerSession(authOptions);
-    console.log('currentSession', currentSession);
 
     if (!currentSession?.user.id) {
-      return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 })
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
     }
     const params = await req.json();
     const result = memberEditVideoSchema.safeParse(params);
@@ -67,7 +65,7 @@ export async function PATCH(req: Request) {
           categoryId: result.data.categoryId,
         }
       })
-      return NextResponse.json(video);
+      return NextResponse.json({ message: "Video updated" });
     } else {
       let validationErrors = result.error ? result.error.formErrors.fieldErrors : [];
       return NextResponse.json({ message: 'Bad Request', 'errors': validationErrors }, { status: 400 });
@@ -81,10 +79,9 @@ export async function PATCH(req: Request) {
 export async function DELETE(req: Request) {
   try {
     const currentSession = await getServerSession(authOptions);
-    console.log('currentSession', currentSession);
 
     if (!currentSession?.user.id) {
-      return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 })
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
     }
     const params = await req.json();
     const videoId = params.id;

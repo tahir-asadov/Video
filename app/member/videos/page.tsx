@@ -10,7 +10,6 @@ import { getServerSession } from 'next-auth';
 
 export default async function MemberVideosPage() {
   const currentSession = await getServerSession(authOptions);
-  console.log('currentSession', currentSession);
 
   let count = 0;
   if (currentSession?.user.id) {

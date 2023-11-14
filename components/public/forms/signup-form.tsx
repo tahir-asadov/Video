@@ -8,13 +8,22 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { FieldValues, useForm } from 'react-hook-form';
+import { useContext } from 'react';
+import { NotificationContext } from '@/providers/notification-provider';
 
 export default function SignUpForm() {
+  const { flash } = useContext(NotificationContext);
   const router = useRouter();
   const mutation = useMutation({
     mutationFn: signUp,
-    onSuccess: () => {
-      // router.push(route('signin'));
+    // onSuccess: () => {
+    // },
+    onSuccess: (data) => {
+      flash({ message: data['message'], status: 'success' });
+      router.push(route('signin'));
+    },
+    onError: (error) => {
+      flash({ message: error.message, status: 'error' });
     },
   });
   const {
@@ -26,7 +35,6 @@ export default function SignUpForm() {
   // firstname, lastname, email, password
 
   const onSubmit = handleSubmit((data: FieldValues) => {
-    console.log(data);
     mutation.mutate({
       firstname: data.firstname,
       lastname: data.lastname,

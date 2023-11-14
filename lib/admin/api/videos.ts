@@ -2,7 +2,15 @@ import { Video } from "@prisma/client";
 import route from "../../routes";
 
 export const apiGetVideos = async (currentPage: number) => {
-  return await fetch(route('api.admin.videos', { 'currentPage': currentPage.toString() })).then(res => res.json()).then(data => data.videos);
+  const res = await fetch(route('api.admin.videos', { 'currentPage': currentPage.toString() })).then(async (response) => {
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error(data.message)
+    }
+  });
+  return await res
 }
 
 export const apiAddVideo = async ({ title, description, categoryId, userId, video, poster, published }: Omit<Video, "uploadDate" | "id">) => {
@@ -12,8 +20,15 @@ export const apiAddVideo = async ({ title, description, categoryId, userId, vide
     body: JSON.stringify({
       title, description, categoryId, userId, video, poster, published
     })
+  }).then(async (response) => {
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error(data.message)
+    }
   });
-  return await res.json();
+  return await res
 }
 
 export const apiUpdateVideo = async ({ id, title, description, categoryId, userId, video, poster, published }: Omit<Video, "uploadDate">) => {
@@ -32,7 +47,6 @@ export const apiUpdateVideo = async ({ id, title, description, categoryId, userI
     }
   });
   // const result = await res.json();
-  console.log('result', res);
 
   return res;
 }

@@ -22,14 +22,14 @@ export async function POST(req: Request) {
           verifyToken: "",
         }
       })
-      return NextResponse.json({ user });
+      return NextResponse.json({ message: "User added" });
     } else {
       let validationErrors = result.error ? result.error.formErrors.fieldErrors : [];
-      return NextResponse.json({ message: 'Bad Request', status: 400, 'errors': validationErrors });
+      return NextResponse.json({ message: 'Bad Request', 'errors': validationErrors }, { status: 400 });
     }
   } catch (error) {
     console.log(route('api.admin.user'), error);
-    return NextResponse.json({ message: "Internal Server Error", status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
 
@@ -58,7 +58,6 @@ export async function PATCH(req: Request) {
           password: await bcrypt.hash(result.data.password, 10),
         }
       }
-      console.log({ ...data, ...passwordField });
 
       const user = await prisma.user.update({
         where: {
@@ -67,14 +66,14 @@ export async function PATCH(req: Request) {
         data: { ...data, ...passwordField }
       })
 
-      return NextResponse.json(user);
+      return NextResponse.json({ message: "User updated" });
     } else {
       let validationErrors = result.error ? result.error.formErrors.fieldErrors : [];
-      return NextResponse.json({ message: 'Bad Request', status: 400, 'errors': validationErrors });
+      return NextResponse.json({ message: 'Bad Request', 'errors': validationErrors }, { status: 400 });
     }
   } catch (error) {
     console.log(route('api.admin.user'), error);
-    return NextResponse.json({ message: "Internal Server Error", status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
 

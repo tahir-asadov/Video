@@ -7,7 +7,6 @@ export async function POST(req: Request) {
   try {
     const params = await req.json();
     const result = categorySchema.safeParse(params);
-    console.log('result', result);
 
     if (result.success) {
       const category = await prisma.category.create({
@@ -17,7 +16,8 @@ export async function POST(req: Request) {
           description: result.data.description
         }
       })
-      return NextResponse.json(category);
+      // return NextResponse.json(category);
+      return NextResponse.json({ message: "Category added" });
     } else {
       let validationErrors = result.error ? result.error.formErrors.fieldErrors : [];
       return NextResponse.json({ message: 'Bad Request', 'errors': validationErrors }, { status: 400 });
@@ -45,7 +45,7 @@ export async function PATCH(req: Request) {
           description: result.data.description
         }
       })
-      return NextResponse.json(category);
+      return NextResponse.json({ message: "Category updated" });
     } else {
       let validationErrors = result.error ? result.error.formErrors.fieldErrors : [];
       return NextResponse.json({ message: 'Bad Request', 'errors': validationErrors }, { status: 400 });

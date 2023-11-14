@@ -8,8 +8,15 @@ export const apiAddVideo = async ({ title, description, categoryId, video, poste
     body: JSON.stringify({
       title, description, categoryId, video, poster
     })
+  }).then(async (response) => {
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error(data.message)
+    }
   });
-  return await res.json();
+  return await res;
 }
 
 
@@ -20,8 +27,15 @@ export const apiUpdateVideo = async ({ id, title, description, categoryId, poste
     body: JSON.stringify({
       id, title, description, categoryId, poster
     })
+  }).then(async (response) => {
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error(data.message)
+    }
   });
-  return await res.json();
+  return await res;
 }
 
 export const apiDeleteVideo = async (id: string) => {
@@ -31,8 +45,15 @@ export const apiDeleteVideo = async (id: string) => {
     body: JSON.stringify({
       id
     })
+  }).then(async (response) => {
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error(data.message)
+    }
   });
-  return await res.json();
+  return await res;
 }
 
 

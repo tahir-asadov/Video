@@ -8,6 +8,13 @@ export const signUp = async ({ firstname, lastname, email, password }: { firstna
     body: JSON.stringify({
       firstname, lastname, email, password
     })
+  }).then(async (response) => {
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error(data.message)
+    }
   });
-  return await res.json();
+  return await res;
 }

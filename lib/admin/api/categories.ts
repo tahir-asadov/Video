@@ -2,7 +2,15 @@ import route from "@/lib/routes";
 import { Category } from "@prisma/client";
 
 export const apiGetCategories = async (currentPage: number) => {
-  return await fetch(route('api.admin.categories', { currentPage: currentPage.toString() })).then(res => res.json()).then(data => data.categories);
+  const res = await fetch(route('api.admin.categories', { 'currentPage': currentPage.toString() })).then(async (response) => {
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error(data.message)
+    }
+  });
+  return await res
 }
 
 export const apiAddCategory = async ({ name, slug, description }: Omit<Category, "id">) => {
@@ -12,8 +20,15 @@ export const apiAddCategory = async ({ name, slug, description }: Omit<Category,
     body: JSON.stringify({
       name, slug, description
     })
+  }).then(async (response) => {
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error(data.message)
+    }
   });
-  return await res.json();
+  return await res;
 }
 
 export const apiUpdateCategory = async ({ id, name, slug, description }: Category) => {
@@ -23,8 +38,15 @@ export const apiUpdateCategory = async ({ id, name, slug, description }: Categor
     body: JSON.stringify({
       id, name, slug, description
     })
+  }).then(async (response) => {
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error(data.message)
+    }
   });
-  return await res.json();
+  return await res;
 }
 
 
@@ -35,7 +57,14 @@ export const apiDeleteCategory = async (id: string) => {
     body: JSON.stringify({
       id
     })
+  }).then(async (response) => {
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error(data.message)
+    }
   });
-  return await res.json();
+  return await res;
 }
 

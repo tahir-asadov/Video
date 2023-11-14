@@ -31,12 +31,11 @@ export async function POST(req: Request) {
           }
         })
         sendVerificationEmail(result.data.email, verifyToken)
-        return NextResponse.json({ success: true });
+        return NextResponse.json({ message: 'Please verify your email' });
       } else {
         return NextResponse.json({
-          success: false,
           message: 'Email is already registered',
-        });
+        }, { status: 400 });
       }
     } else {
       let validationErrors = result.error ? result.error.formErrors.fieldErrors : [];

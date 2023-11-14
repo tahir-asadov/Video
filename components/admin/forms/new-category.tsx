@@ -9,16 +9,23 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import route from '@/lib/routes';
 import { useRouter } from 'next/navigation';
 import { apiAddCategory } from '@/lib/admin/api/categories';
+import { useContext } from 'react';
+import { NotificationContext } from '@/providers/notification-provider';
 
 export default function NewCategory() {
+  const { flash } = useContext(NotificationContext);
   const router = useRouter();
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: apiAddCategory,
-    onSuccess: () => {
+    onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['categories'] });
-      // router.push(route('signin'));
+      router.push(route('admin.categories'));
+      flash({ message: data['message'], status: 'success' });
+    },
+    onError: (error) => {
+      flash({ message: error.message, status: 'error' });
     },
   });
   const {

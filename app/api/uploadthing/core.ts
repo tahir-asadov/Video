@@ -21,9 +21,6 @@ export const ourFileRouter = {
     })
     .onUploadComplete(async ({ metadata, file }) => {
       // This code RUNS ON YOUR SERVER after upload
-      console.log("Upload complete for userId:",);
-
-      console.log("file url", file.url);
     }),
   // Define as many FileRoutes as you like, each with a unique routeSlug
   videoUploader: f({ video: { maxFileSize: "32MB" } })
@@ -41,9 +38,6 @@ export const ourFileRouter = {
     })
     .onUploadComplete(async ({ metadata, file }) => {
       // This code RUNS ON YOUR SERVER after upload
-      console.log("Upload complete for userId:",);
-
-      console.log("file url", file.url);
     }),
 } satisfies FileRouter;
 

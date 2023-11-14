@@ -12,19 +12,25 @@ import { userEditSchema } from '@/zod-schemas/user';
 import { Role, User } from '@prisma/client';
 import { z } from 'zod';
 import { userStatus } from '@/lib/constants';
+import { useContext } from 'react';
+import { NotificationContext } from '@/providers/notification-provider';
 
 export default function EditUser({ user }: { user: User }) {
-  console.log('user', user);
+  const { flash } = useContext(NotificationContext);
 
   type userSchemaType = z.infer<typeof userEditSchema>;
   const router = useRouter();
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: apiUpdateUser,
-    onSuccess: () => {
+    onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['users', user] });
       router.push(route('admin.users'));
+      flash({ message: data['message'], status: 'success' });
+    },
+    onError: (error) => {
+      flash({ message: error.message, status: 'error' });
     },
   });
 

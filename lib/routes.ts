@@ -12,7 +12,7 @@ const routes: { [key: string]: string } = {
   'signup': `${siteURL}/signup`,
   'api.signup': `${siteURL}/api/signup`,
   'api.verifyEmail': `${siteURL}/api/verifyEmail?token=:token`,
-
+  'api.sendVerificationEmail': `${siteURL}/api/sendVerificationEmail`,
   // Admin
   'admin': `${siteURL}/admin`,
   'admin.videos.new': `${siteURL}/admin/videos/new`,

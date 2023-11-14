@@ -14,8 +14,11 @@ import TableSkeleton from './skeletons/table';
 import { useSearchParams } from 'next/navigation';
 import Pagination from './pagination';
 import { PER_PAGE } from '@/lib/constants';
+import { useContext } from 'react';
+import { NotificationContext } from '@/providers/notification-provider';
 
 export default function Categories({ count }: { count: number }) {
+  const { flash } = useContext(NotificationContext);
   const searchParams = useSearchParams();
   const currentRaw = searchParams.get('page');
   const currentPage =
@@ -24,9 +27,15 @@ export default function Categories({ count }: { count: number }) {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: apiDeleteCategory,
-    onSuccess: () => {
+    onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['categories'] });
+      flash({ message: data['message'], status: 'success' });
+    },
+    onError: (error) => {
+      console.log('error', error);
+
+      flash({ message: error.message, status: 'error' });
     },
   });
   const query = useQuery({
@@ -35,10 +44,11 @@ export default function Categories({ count }: { count: number }) {
       return await apiGetCategories(currentPage);
     },
   });
+
   return (
     <div>
       {query.isLoading && <TableSkeleton />}
-      {query.isFetched && query.data.length > 0 ? (
+      {query.isFetched && query.data?.categories.length > 0 ? (
         <>
           <table>
             <thead>
@@ -50,7 +60,7 @@ export default function Categories({ count }: { count: number }) {
               </tr>
             </thead>
             <tbody>
-              {query.data?.map((category: Category) => (
+              {query.data?.categories.map((category: Category) => (
                 <tr key={category.id}>
                   <td>{category.name}</td>
                   <td>{category.slug}</td>

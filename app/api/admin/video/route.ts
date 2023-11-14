@@ -22,7 +22,7 @@ export async function POST(req: Request) {
           userId: result.data.userId,
         }
       })
-      return NextResponse.json(video);
+      return NextResponse.json({ message: 'Video added' });
     } else {
       let validationErrors = result.error ? result.error.formErrors.fieldErrors : [];
       return NextResponse.json({ message: 'Bad Request', 'errors': validationErrors }, { status: 400 });

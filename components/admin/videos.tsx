@@ -9,7 +9,10 @@ import Pagination from './pagination';
 import { useSearchParams } from 'next/navigation';
 import { PER_PAGE } from '@/lib/constants';
 import { Category, User, Video } from '@prisma/client';
+import { NotificationContext } from '@/providers/notification-provider';
+import { useContext } from 'react';
 export default function Videos({ count }: { count: number }) {
+  const { flash } = useContext(NotificationContext);
   const searchParams = useSearchParams();
   const currentRaw = searchParams.get('page');
   const currentPage =
@@ -24,17 +27,22 @@ export default function Videos({ count }: { count: number }) {
   });
   const mutation = useMutation({
     mutationFn: apiDeleteVideo,
-    onSuccess: () => {
+    onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['videos'] });
+      flash({ message: data['message'], status: 'success' });
+    },
+    onError: (error) => {
+      flash({ message: error.message, status: 'error' });
     },
   });
+  console.log('data', query.data);
 
   return (
     <div>
       {query.isLoading && <TableSkeleton />}
 
-      {query.isFetched && query.data.length > 0 ? (
+      {query.isFetched && query.data && query.data.videos.length > 0 ? (
         <>
           <table>
             <thead>
@@ -48,7 +56,7 @@ export default function Videos({ count }: { count: number }) {
               </tr>
             </thead>
             <tbody>
-              {query.data?.map(
+              {query.data?.videos.map(
                 (video: Video & { category: Category; user: User }) => (
                   <tr key={video.id}>
                     <td>{video.title}</td>
@@ -90,7 +98,7 @@ export default function Videos({ count }: { count: number }) {
           />
         </>
       ) : (
-        <div>Nothing found</div>
+        !query.isLoading && <div>Nothing found</div>
       )}
     </div>
   );

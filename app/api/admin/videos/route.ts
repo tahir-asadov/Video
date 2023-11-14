@@ -9,8 +9,6 @@ export async function GET(req: Request) {
   const pageRaw = url.searchParams.get("page")
   const currentPage = (pageRaw == null || pageRaw == '0') ? 1 : parseInt(pageRaw)
   const skip = (currentPage - 1) * PER_PAGE!;
-  console.log('pageRaw', pageRaw);
-  console.log('currentPage', currentPage);
 
   try {
     const videos = await prisma.video.findMany({

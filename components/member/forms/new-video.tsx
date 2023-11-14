@@ -14,15 +14,22 @@ import VideoUploader from '@/components/admin/video-uploader';
 import Error from '@/components/member/error';
 import Button from '@/components/member/button';
 import { memberVideoSchema } from '@/zod-schemas/member-video';
+import { useContext } from 'react';
+import { NotificationContext } from '@/providers/notification-provider';
 export default function NewVideo({ categories }: { categories: Category[] }) {
+  const { flash } = useContext(NotificationContext);
   const router = useRouter();
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: apiAddVideo,
-    onSuccess: () => {
+    onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['videos'] });
       router.push(route('member.videos'));
+      flash({ message: data['message'], status: 'success' });
+    },
+    onError: (error) => {
+      flash({ message: error.message, status: 'error' });
     },
   });
 

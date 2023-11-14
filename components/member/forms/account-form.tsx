@@ -22,15 +22,10 @@ export default function AccountForm({ user }: { user: User }) {
     mutationFn: apiUpdateAccount,
     onSuccess: (data) => {
       // Invalidate and refetch
-      // router.push(route('member'));
-      if (data && data['success']) {
-        flash({ message: data['message'], status: 'success' });
-        setTimeout(() => {
-          router.push(route('member'));
-        }, 1200);
-      } else {
-        flash({ message: data['message'], status: 'error' });
-      }
+      flash({ message: data['message'], status: 'success' });
+    },
+    onError: (error) => {
+      flash({ message: error.message, status: 'error' });
     },
   });
   const {

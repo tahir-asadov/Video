@@ -15,7 +15,7 @@ export async function PATCH(req: Request) {
     const currentSession = await getServerSession(authOptions);
 
     if (!currentSession?.user.id) {
-      return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 })
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
     }
 
     if (result.success) {
@@ -32,8 +32,6 @@ export async function PATCH(req: Request) {
           password: await bcrypt.hash(result.data.password, 10),
         }
       }
-      console.log({ ...data, ...passwordField });
-
       const user = await prisma.user.update({
         where: {
           id: currentSession?.user.id
@@ -41,13 +39,13 @@ export async function PATCH(req: Request) {
         data: { ...data, ...passwordField }
       })
 
-      return NextResponse.json({ success: true, message: "Account updated successfully" });
+      return NextResponse.json({ message: "Account updated successfully" });
     } else {
       let validationErrors = result.error ? result.error.formErrors.fieldErrors : [];
-      return NextResponse.json({ success: false, message: 'Bad Request', 'errors': validationErrors }, { status: 400 });
+      return NextResponse.json({ message: 'Bad Request', 'errors': validationErrors }, { status: 400 });
     }
   } catch (error) {
     console.log(route('api.admin.user'), error);
-    return NextResponse.json({ success: false, message: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }

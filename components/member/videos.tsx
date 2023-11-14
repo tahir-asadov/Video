@@ -14,8 +14,11 @@ import TableSkeleton from '../admin/skeletons/table';
 import route from '@/lib/routes';
 import Pagination from '../admin/pagination';
 import { PER_PAGE } from '@/lib/constants';
+import { useContext } from 'react';
+import { NotificationContext } from '@/providers/notification-provider';
 
 export default function MemberVideos({ count }: { count: number }) {
+  const { flash } = useContext(NotificationContext);
   const searchParams = useSearchParams();
   const currentRaw = searchParams.get('page');
   const currentPage =
@@ -31,8 +34,13 @@ export default function MemberVideos({ count }: { count: number }) {
 
   const mutation = useMutation({
     mutationFn: apiDeleteVideo,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['videos'] });
+      flash({ message: data['message'], status: 'success' });
+    },
+    onError: (error) => {
+      flash({ message: error.message, status: 'error' });
     },
   });
 
@@ -93,7 +101,7 @@ export default function MemberVideos({ count }: { count: number }) {
           />
         </>
       ) : (
-        <div>{query?.data && query?.data.length == 0 && 'Nothing found'}</div>
+        !query.isLoading && <div>Nothing found</div>
       )}
     </div>
   );

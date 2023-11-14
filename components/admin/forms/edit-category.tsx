@@ -10,18 +10,25 @@ import route from '@/lib/routes';
 import { useRouter } from 'next/navigation';
 import { apiUpdateCategory } from '@/lib/admin/api/categories';
 import { Category } from '@prisma/client';
+import { useContext } from 'react';
+import { NotificationContext } from '@/providers/notification-provider';
 
 export default function EditCategory({ category }: { category: Category }) {
+  const { flash } = useContext(NotificationContext);
   const router = useRouter();
   console.log('category', category);
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: apiUpdateCategory,
-    onSuccess: () => {
+    onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['categories'] });
       router.push(route('admin.categories'));
+      flash({ message: data['message'], status: 'success' });
+    },
+    onError: (error) => {
+      flash({ message: error.message, status: 'error' });
     },
   });
   const {

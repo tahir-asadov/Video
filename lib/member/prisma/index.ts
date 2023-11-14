@@ -12,7 +12,6 @@ export const getCategories = async () => {
 
 
 export const getVideo = async (videoId: string, userId: string) => {
-  console.log('videoId, userId', videoId, userId);
 
   return await prisma.video.findUnique({
     where: {

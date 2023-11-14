@@ -6,24 +6,33 @@ import { Edit, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import TableSkeleton from './skeletons/table';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Pagination from './pagination';
 import { PER_PAGE } from '@/lib/constants';
 import { apiDeleteUser, apiGetUsers } from '@/lib/admin/api/users';
 import { User } from '@prisma/client';
+import { useContext } from 'react';
+import { NotificationContext } from '@/providers/notification-provider';
 
 export default function Users({ count }: { count: number }) {
+  const { flash } = useContext(NotificationContext);
   const searchParams = useSearchParams();
   const currentRaw = searchParams.get('page');
   const currentPage =
     currentRaw == null ? 1 : Math.max(parseInt(currentRaw), 1);
 
+  const router = useRouter();
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: apiDeleteUser,
-    onSuccess: () => {
+    onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['users'] });
+      router.push(route('admin.users'));
+      flash({ message: data['message'], status: 'success' });
+    },
+    onError: (error) => {
+      flash({ message: error.message, status: 'error' });
     },
   });
   const query = useQuery({
@@ -35,7 +44,7 @@ export default function Users({ count }: { count: number }) {
   return (
     <div>
       {query.isLoading && <TableSkeleton />}
-      {query.isFetched && query.data.length > 0 ? (
+      {query.isFetched && query.data?.users.length > 0 ? (
         <>
           <table>
             <thead>
@@ -50,7 +59,7 @@ export default function Users({ count }: { count: number }) {
               </tr>
             </thead>
             <tbody>
-              {query.data?.map((user: User) => (
+              {query.data?.users.map((user: User) => (
                 <tr key={user.id}>
                   <td>
                     {user.firstName} {user.lastName}

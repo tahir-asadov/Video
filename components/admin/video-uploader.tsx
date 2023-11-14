@@ -8,7 +8,6 @@ export default function VideoUploader({
   value: string;
   onChange: (url?: string) => void;
 }) {
-  console.log('value', value);
 
   return (
     <>

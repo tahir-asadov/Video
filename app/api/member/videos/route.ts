@@ -7,10 +7,9 @@ import { PER_PAGE } from "@/lib/constants";
 
 export async function GET(req: Request) {
   const currentSession = await getServerSession(authOptions);
-  console.log('currentSession', currentSession);
 
   if (!currentSession?.user.id) {
-    return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 })
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
   }
   const url = new URL(req.url)
   const pageRaw = url.searchParams.get("page")

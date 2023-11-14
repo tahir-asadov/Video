@@ -13,6 +13,8 @@ import ImageUploader from '@/components/admin/image-uploader';
 import { memberEditVideoSchema } from '@/zod-schemas/member-video';
 import route from '@/lib/routes';
 import { apiUpdateVideo } from '@/lib/member/api/videos';
+import { useContext } from 'react';
+import { NotificationContext } from '@/providers/notification-provider';
 
 export default function EditVideo({
   video,
@@ -21,14 +23,18 @@ export default function EditVideo({
   video: Video;
   categories: Category[];
 }) {
+  const { flash } = useContext(NotificationContext);
   const router = useRouter();
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: apiUpdateVideo,
-    onSuccess: () => {
+    onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['videos'] });
-      router.push(route('member.videos'));
+      flash({ message: data['message'], status: 'success' });
+    },
+    onError: (error) => {
+      flash({ message: error.message, status: 'error' });
     },
   });
 
@@ -47,11 +53,8 @@ export default function EditVideo({
       poster: video.poster,
     },
   });
-  console.log('errors', errors);
 
   const onSubmit = handleSubmit((data: FieldValues) => {
-    console.log('data', data);
-
     mutation.mutate({
       id: video.id,
       title: data.title,
