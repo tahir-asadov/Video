@@ -8,7 +8,7 @@ export default async function UserNav() {
 
   return (
     <div className="flex items-center p-2">
-      <div className="flex gap-3 ">
+      <div className="w-full flex gap-3 justify-between md:justify-end">
         {userInfo?.user.role == 'ADMIN' && (
           <Link href={route('admin')}>Admin</Link>
         )}

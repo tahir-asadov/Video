@@ -42,7 +42,6 @@ export default function NewUser() {
   } = useForm<userSchemaType>({ resolver: zodResolver(userSchema) });
 
   const onSubmit = handleSubmit((data: userSchemaType) => {
-
     mutation.mutate({
       firstName: data.firstName,
       lastName: data.lastName,
